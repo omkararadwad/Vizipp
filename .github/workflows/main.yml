@@ -19,3 +19,5 @@ jobs:
           REMOTE_HOST: "ec2-54-162-201-89.compute-1.amazonaws.com"
           REMOTE_USER: "ec2-user"
           TARGET: "/test/Vizipp"
+          RSYNC_OPTIONS: "--delete"
+          
