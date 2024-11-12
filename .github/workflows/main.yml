@@ -11,13 +11,11 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@v5.1.0
+      - name: Deploy to EC2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SOURCE: "./"
-          REMOTE_HOST: "ec2-54-162-201-89.compute-1.amazonaws.com"
-          REMOTE_USER: "ec2-user"
-          TARGET: "/test/Vizipp"
-          ARGS: "-rlgoDzvc -i --delete"
-          
+        run: |
+          echo "$SSH_PRIVATE_KEY" > /tmp/ec2_key
+          chmod 600 /tmp/ec2_key
+          scp -o StrictHostKeyChecking=no -i /tmp/ec2_key -r . ec2-user@34.207.234.166:/home/ec2-user/vizipp
+          ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key ec2-user@34.207.234.166 'cd /home/ec2-user/vizipp && ./deploy.sh'
