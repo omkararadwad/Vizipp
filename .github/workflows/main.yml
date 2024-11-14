@@ -1,5 +1,6 @@
 name: Push-to-EC2
 
+# Trigger deployment only on push to master branch
 on:
   push:
     branches:
@@ -7,18 +8,17 @@ on:
 
 jobs:
   deploy:
-    name: Push to EC2 Instance
+    name: Deploy to EC2 on main branch push
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v3
+      - name: Checkout the files
+        uses: actions/checkout@v2
 
-      - name: Deploy to EC2
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > /tmp/ec2_key
-          chmod 600 /tmp/ec2_key
-          scp -o StrictHostKeyChecking=no -i /tmp/ec2_key -r * ec2-user@34.207.234.166:/home/ec2-user/vizipp
-          ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key ec2-user@34.207.234.166 'cd /home/ec2-user/vizipp && ./deploy.sh'
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
