@@ -20,5 +20,5 @@ jobs:
           host: ${{ secrets.HOST_DNS }}
           username: omkar  # Replace with the username you wish to use
           password: ${{ secrets.EC2_USER_PASSWORD }}
-          script: |
-            rsync -avz --delete ./ "${{ secrets.TARGET_DIR }}/"
+          TARGET: ${{ secrets.TARGET_DIR }}
+          args: "-avz --delete"  # This will delete files from the target that are not in the source
