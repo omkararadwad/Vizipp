@@ -21,4 +21,4 @@ jobs:
           username: ${{ secrets.USERNAME }}  # Replace with the username you wish to use
           password: ${{ secrets.EC2_USER_PASSWORD }}
           script: |
-            rsync -avz --delete . ${{ secrets.TARGET_DIR }}
+           rsync -avz --delete ./ ${{ secrets.TARGET_DIR }}
