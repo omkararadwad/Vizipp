@@ -1,6 +1,5 @@
 name: Push-to-EC2
 
-# Trigger deployment only on push to the main branch
 on:
   push:
     branches:
@@ -15,12 +14,11 @@ jobs:
       - name: Checkout the files
         uses: actions/checkout@v2
 
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
         with:
-          args: "-avz --delete"  # This will delete files from the target that are not in the source
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.EC2_USERNAME }}  # Replace with the username you wish to use
+          password: ${{ secrets.EC2_USER_PASSWORD }}
+          script: |
+            rsync -avz --delete . ${{ secrets.TARGET_DIR }}
