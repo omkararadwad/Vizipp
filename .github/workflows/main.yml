@@ -18,7 +18,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.EC2_USERNAME }}  # Replace with the username you wish to use
+          username: ${{ secrets.USERNAME }}  # Replace with the username you wish to use
           password: ${{ secrets.EC2_USER_PASSWORD }}
           script: |
             rsync -avz --delete . ${{ secrets.TARGET_DIR }}
