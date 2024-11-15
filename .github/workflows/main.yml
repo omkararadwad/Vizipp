@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy to Server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.0  # Using a stable release version
         with:
           host: ${{ secrets.HOST_DNS }}
           username: omkar  # Replace with the username you wish to use
